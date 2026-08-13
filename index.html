@@ -26,8 +26,1305 @@
         rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="styles.css" />
+    <style>
+
+        /* =========================================================
+           JLSC SOFTWARE
+           ========================================================= */
+
+        :root {
+            --bg: #11110f;
+            --bg-soft: #171714;
+
+            --text: #f1eee5;
+            --muted: #97958d;
+            --muted-dark: #66655f;
+
+            --accent: #d9b84c;
+            --accent-soft: rgba(217, 184, 76, 0.15);
+
+            --line: rgba(241, 238, 229, 0.12);
+            --line-soft: rgba(241, 238, 229, 0.07);
+
+            --serif: Georgia, "Times New Roman", serif;
+
+            --sans:
+                "Manrope",
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            --mono:
+                "DM Mono",
+                "SFMono-Regular",
+                Consolas,
+                monospace;
+
+            --max-width: 1440px;
+        }
+
+
+        /* =========================================================
+           RESET
+           ========================================================= */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            min-height: 100%;
+            background: var(--bg);
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+
+            background:
+                radial-gradient(
+                    circle at 80% 10%,
+                    rgba(217, 184, 76, 0.035),
+                    transparent 32%
+                ),
+                var(--bg);
+
+            color: var(--text);
+
+            font-family: var(--sans);
+
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        a,
+        button {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+
+        /* =========================================================
+           ATMOSPHERE
+           ========================================================= */
+
+        .noise {
+            position: fixed;
+            inset: 0;
+
+            z-index: 20;
+
+            pointer-events: none;
+
+            opacity: 0.035;
+
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
+
+            mix-blend-mode: soft-light;
+        }
+
+
+        .grid {
+            position: fixed;
+            inset: 0;
+
+            pointer-events: none;
+
+            opacity: 0.035;
+
+            background-image:
+                linear-gradient(
+                    90deg,
+                    transparent 49.9%,
+                    rgba(255,255,255,0.5) 50%,
+                    transparent 50.1%
+                ),
+                linear-gradient(
+                    0deg,
+                    transparent 49.9%,
+                    rgba(255,255,255,0.5) 50%,
+                    transparent 50.1%
+                );
+
+            background-size: 120px 120px;
+        }
+
+
+        /* =========================================================
+           SITE
+           ========================================================= */
+
+        .site {
+            position: relative;
+
+            width: min(
+                var(--max-width),
+                calc(100% - 64px)
+            );
+
+            margin: 0 auto;
+
+            padding: 30px 0 34px;
+        }
+
+
+        /* =========================================================
+           HEADER
+           ========================================================= */
+
+        .header {
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            padding-bottom: 26px;
+
+            border-bottom: 1px solid var(--line);
+
+            animation: appear 0.8s ease both;
+        }
+
+
+        .identity {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+            text-decoration: none;
+        }
+
+
+        .identity-mark {
+            width: 31px;
+            height: 31px;
+
+            display: grid;
+            place-items: center;
+
+            overflow: hidden;
+
+            border: 1px solid var(--line);
+
+            background: #171714;
+        }
+
+
+        .identity-mark img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: contain;
+        }
+
+
+        .identity-text {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 1px;
+
+            line-height: 1;
+        }
+
+
+        .identity-text strong {
+            font-size: 15px;
+
+            font-weight: 800;
+
+            letter-spacing: -0.03em;
+        }
+
+
+        .identity-text span {
+            color: var(--muted);
+
+            font-family: var(--mono);
+
+            font-size: 8px;
+
+            letter-spacing: 0.18em;
+        }
+
+
+        .header-meta {
+            display: flex;
+
+            align-items: center;
+
+            gap: 28px;
+
+            color: var(--muted);
+
+            font-family: var(--mono);
+
+            font-size: 10px;
+
+            letter-spacing: 0.08em;
+
+            text-transform: uppercase;
+        }
+
+
+        .location {
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+        }
+
+
+        .location i {
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: var(--accent);
+
+            box-shadow:
+                0 0 0 4px rgba(217,184,76,0.08),
+                0 0 12px rgba(217,184,76,0.4);
+        }
+
+
+        /* =========================================================
+           HERO
+           ========================================================= */
+
+        .hero {
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1.25fr)
+                minmax(360px, 0.75fr);
+
+            min-height: 680px;
+
+            border-bottom: 1px solid var(--line);
+
+            animation: appear 0.9s 0.08s ease both;
+        }
+
+
+        .hero-copy {
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            padding:
+                90px
+                clamp(40px, 7vw, 110px)
+                90px
+                0;
+
+            border-right: 1px solid var(--line);
+        }
+
+
+        .eyebrow {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            margin-bottom: 30px;
+
+            color: var(--muted);
+
+            font-family: var(--mono);
+
+            font-size: 10px;
+
+            letter-spacing: 0.12em;
+
+            text-transform: uppercase;
+        }
+
+
+        .eyebrow-line {
+            width: 34px;
+            height: 1px;
+
+            background: var(--accent);
+        }
+
+
+        .hero h1 {
+            max-width: 850px;
+
+            margin: 0;
+
+            font-size:
+                clamp(
+                    60px,
+                    7.4vw,
+                    112px
+                );
+
+            line-height: 0.88;
+
+            letter-spacing: -0.075em;
+
+            font-weight: 700;
+        }
+
+
+        .hero h1 em {
+            color: var(--accent);
+
+            font-family: var(--serif);
+
+            font-weight: 400;
+
+            letter-spacing: -0.07em;
+        }
+
+
+        .hero-bottom {
+            display: grid;
+
+            grid-template-columns:
+                minmax(240px, 1fr)
+                auto;
+
+            gap: 50px;
+
+            align-items: end;
+
+            margin-top: 70px;
+
+            max-width: 760px;
+        }
+
+
+        .intro {
+            max-width: 470px;
+
+            margin: 0;
+
+            color: #aaa8a0;
+
+            font-size: 15px;
+
+            line-height: 1.7;
+
+            letter-spacing: -0.01em;
+        }
+
+
+        /* =========================================================
+           AVAILABILITY
+           ========================================================= */
+
+        .availability {
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 10px;
+
+            min-width: 180px;
+
+            color: var(--muted);
+
+            font-family: var(--mono);
+
+            font-size: 10px;
+
+            line-height: 1.5;
+
+            text-transform: uppercase;
+        }
+
+
+        .availability small {
+            display: block;
+
+            margin-bottom: 3px;
+
+            color: var(--muted-dark);
+
+            font-size: 8px;
+
+            letter-spacing: 0.15em;
+        }
+
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+
+            flex: 0 0 auto;
+
+            margin-top: 4px;
+
+            border-radius: 50%;
+
+            background: #77766f;
+        }
+
+
+        /* =========================================================
+           VISUAL
+           ========================================================= */
+
+        .visual {
+            position: relative;
+
+            min-height: 680px;
+
+            overflow: hidden;
+
+            background: #181815;
+
+            --mx: 0px;
+            --my: 0px;
+        }
+
+
+        .visual-image {
+            position: absolute;
+
+            inset: -14px;
+
+            background-image:
+                url("./AdobeStock_1867431796.jpeg");
+
+            background-size: cover;
+
+            background-position: center;
+
+            filter:
+                grayscale(0.35)
+                contrast(1.1)
+                brightness(0.62);
+
+            transform:
+                translate3d(
+                    var(--mx),
+                    var(--my),
+                    0
+                )
+                scale(1.035);
+
+            transition:
+                transform 0.7s cubic-bezier(.2,.7,.2,1);
+
+            will-change: transform;
+        }
+
+
+        .visual-overlay {
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(17,17,15,0.8),
+                    rgba(17,17,15,0.05) 65%
+                ),
+                linear-gradient(
+                    0deg,
+                    rgba(17,17,15,0.8),
+                    transparent 40%
+                );
+        }
+
+
+        .visual-label {
+            position: absolute;
+
+            left: 24px;
+            right: 24px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            color: rgba(241,238,229,0.72);
+
+            font-family: var(--mono);
+
+            font-size: 9px;
+
+            letter-spacing: 0.1em;
+        }
+
+
+        .label-top {
+            top: 24px;
+        }
+
+
+        .label-bottom {
+            bottom: 58px;
+
+            color: var(--accent);
+        }
+
+
+        .visual-caption {
+            position: absolute;
+
+            bottom: 23px;
+
+            left: 24px;
+
+            display: flex;
+
+            gap: 8px;
+
+            color: rgba(241,238,229,0.55);
+
+            font-family: var(--mono);
+
+            font-size: 8px;
+
+            letter-spacing: 0.12em;
+        }
+
+
+        /* Crosshair details */
+
+        .visual-cross {
+            position: absolute;
+
+            width: 24px;
+            height: 24px;
+
+            opacity: 0.5;
+        }
+
+
+        .visual-cross::before,
+        .visual-cross::after {
+            content: "";
+
+            position: absolute;
+
+            background: var(--accent);
+        }
+
+
+        .visual-cross::before {
+            top: 50%;
+            left: 0;
+            right: 0;
+
+            height: 1px;
+        }
+
+
+        .visual-cross::after {
+            left: 50%;
+            top: 0;
+            bottom: 0;
+
+            width: 1px;
+        }
+
+
+        .cross-one {
+            top: 30%;
+            right: 12%;
+        }
+
+
+        .cross-two {
+            bottom: 18%;
+            left: 17%;
+        }
+
+
+        /* =========================================================
+           SERVICES
+           ========================================================= */
+
+        .services {
+            padding: 95px 0 110px;
+
+            border-bottom: 1px solid var(--line);
+        }
+
+
+        .section-heading {
+            display: flex;
+
+            align-items: center;
+
+            gap: 16px;
+
+            margin-bottom: 48px;
+
+            color: var(--muted);
+
+            font-family: var(--mono);
+
+            font-size: 10px;
+
+            letter-spacing: 0.1em;
+
+            text-transform: uppercase;
+        }
+
+
+        .section-number {
+            color: var(--accent);
+        }
+
+
+        .section-title {
+            white-space: nowrap;
+        }
+
+
+        .section-rule {
+            width: 100%;
+            height: 1px;
+
+            background: var(--line);
+        }
+
+
+        .service-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            border-top: 1px solid var(--line);
+
+            border-left: 1px solid var(--line);
+        }
+
+
+        .service {
+            position: relative;
+
+            min-height: 290px;
+
+            padding: 26px;
+
+            border-right: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+
+            transition:
+                background 0.3s ease,
+                transform 0.3s ease;
+        }
+
+
+        .service:hover {
+            background: rgba(217,184,76,0.035);
+
+            transform: translateY(-3px);
+        }
+
+
+        .service-number {
+            color: var(--accent);
+
+            font-family: var(--mono);
+
+            font-size: 9px;
+
+            letter-spacing: 0.1em;
+        }
+
+
+        .service h2 {
+            margin:
+                65px 0 17px;
+
+            max-width: 210px;
+
+            font-size: 19px;
+
+            line-height: 1.1;
+
+            letter-spacing: -0.04em;
+        }
+
+
+        .service p {
+            max-width: 250px;
+
+            margin: 0;
+
+            color: var(--muted);
+
+            font-size: 12px;
+
+            line-height: 1.65;
+        }
+
+
+        .service-arrow {
+            position: absolute;
+
+            right: 24px;
+            bottom: 22px;
+
+            color: var(--accent);
+
+            font-size: 17px;
+
+            opacity: 0.7;
+
+            transition:
+                transform 0.3s ease;
+        }
+
+
+        .service:hover .service-arrow {
+            transform:
+                translate(3px, -3px);
+        }
+
+
+        /* =========================================================
+           CONTACT
+           ========================================================= */
+
+        .contact {
+            display: grid;
+
+            grid-template-columns: 180px 1fr;
+
+            padding: 105px 0 120px;
+        }
+
+
+        .contact-index {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 6px;
+
+            color: var(--muted-dark);
+
+            font-family: var(--mono);
+
+            font-size: 9px;
+
+            letter-spacing: 0.1em;
+        }
+
+
+        .contact-index span:first-child {
+            color: var(--accent);
+        }
+
+
+        .contact-main {
+            max-width: 850px;
+        }
+
+
+        .contact-kicker {
+            margin: 0 0 24px;
+
+            color: var(--muted);
+
+            font-family: var(--mono);
+
+            font-size: 10px;
+
+            letter-spacing: 0.12em;
+
+            text-transform: uppercase;
+        }
+
+
+        .contact h2 {
+            margin: 0;
+
+            font-size:
+                clamp(
+                    52px,
+                    7vw,
+                    104px
+                );
+
+            line-height: 0.88;
+
+            letter-spacing: -0.075em;
+        }
+
+
+        .contact-button {
+            position: relative;
+
+            display: flex;
+
+            flex-direction: column;
+
+            width: min(500px, 100%);
+
+            margin-top: 65px;
+
+            padding: 24px 28px;
+
+            overflow: hidden;
+
+            border: 1px solid var(--line);
+
+            background: transparent;
+
+            text-decoration: none;
+
+            transition:
+                border-color 0.3s ease,
+                background 0.3s ease;
+        }
+
+
+        .contact-button::before {
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            width: 0;
+
+            background: var(--accent);
+
+            transition:
+                width 0.45s cubic-bezier(.2,.7,.2,1);
+        }
+
+
+        .contact-button:hover::before {
+            width: 100%;
+        }
+
+
+        .button-label,
+        .button-email,
+        .button-arrow {
+            position: relative;
+
+            z-index: 1;
+        }
+
+
+        .button-label {
+            font-size: 14px;
+
+            font-weight: 700;
+
+            letter-spacing: -0.02em;
+
+            transition:
+                color 0.3s ease;
+        }
+
+
+        .button-email {
+            margin-top: 5px;
+
+            color: var(--muted);
+
+            font-family: var(--mono);
+
+            font-size: 10px;
+
+            transition:
+                color 0.3s ease;
+        }
+
+
+        .button-arrow {
+            position: absolute;
+
+            top: 22px;
+            right: 27px;
+
+            font-size: 19px;
+
+            transition:
+                color 0.3s ease,
+                transform 0.3s ease;
+        }
+
+
+        .contact-button:hover .button-label,
+        .contact-button:hover .button-email,
+        .contact-button:hover .button-arrow {
+            color: #171714;
+        }
+
+
+        .contact-button:hover .button-arrow {
+            transform:
+                translate(3px, -3px);
+        }
+
+
+        /* =========================================================
+           FOOTER
+           ========================================================= */
+
+        .footer {
+            display: flex;
+
+            align-items: flex-end;
+            justify-content: space-between;
+
+            padding-top: 24px;
+
+            border-top: 1px solid var(--line);
+
+            color: var(--muted-dark);
+
+            font-family: var(--mono);
+
+            font-size: 8px;
+
+            line-height: 1.5;
+
+            letter-spacing: 0.08em;
+
+            text-transform: uppercase;
+        }
+
+
+        .footer-left,
+        .footer-right {
+            display: flex;
+
+            gap: 24px;
+
+            align-items: center;
+        }
+
+
+        .footer-brand {
+            color: var(--text);
+        }
+
+
+        .footer a {
+            text-decoration: none;
+
+            transition:
+                color 0.2s ease;
+        }
+
+
+        .footer a:hover {
+            color: var(--accent);
+        }
+
+
+        /* =========================================================
+           ANIMATION
+           ========================================================= */
+
+        @keyframes appear {
+
+            from {
+                opacity: 0;
+
+                transform:
+                    translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
+
+        }
+
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+
+            }
+
+        }
+
+
+        /* =========================================================
+           TABLET
+           ========================================================= */
+
+        @media (max-width: 1050px) {
+
+            .site {
+                width:
+                    min(
+                        100% - 42px,
+                        var(--max-width)
+                    );
+            }
+
+
+            .hero {
+                grid-template-columns:
+                    minmax(0, 1fr)
+                    minmax(300px, 0.65fr);
+            }
+
+
+            .hero-copy {
+                padding-right: 50px;
+            }
+
+
+            .hero-bottom {
+                grid-template-columns: 1fr;
+
+                gap: 30px;
+
+                margin-top: 55px;
+            }
+
+
+            .service-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+
+        /* =========================================================
+           MOBILE
+           ========================================================= */
+
+        @media (max-width: 720px) {
+
+            .site {
+                width:
+                    calc(100% - 32px);
+
+                padding-top: 18px;
+            }
+
+
+            .header {
+                padding-bottom: 18px;
+            }
+
+
+            .header-index {
+                display: none;
+            }
+
+
+            .header-meta {
+                font-size: 8px;
+            }
+
+
+            .hero {
+                display: flex;
+
+                flex-direction: column;
+
+                min-height: auto;
+            }
+
+
+            .hero-copy {
+                padding:
+                    70px
+                    0
+                    55px;
+
+                border-right: none;
+            }
+
+
+            .hero h1 {
+                font-size:
+                    clamp(
+                        52px,
+                        16vw,
+                        82px
+                    );
+            }
+
+
+            .hero-bottom {
+                margin-top: 45px;
+            }
+
+
+            .intro {
+                font-size: 14px;
+            }
+
+
+            .visual {
+                min-height: 420px;
+            }
+
+
+            .services {
+                padding:
+                    70px 0 75px;
+            }
+
+
+            .service-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .service {
+                min-height: 245px;
+            }
+
+
+            .service h2 {
+                margin-top: 50px;
+            }
+
+
+            .contact {
+                display: block;
+
+                padding:
+                    75px
+                    0
+                    85px;
+            }
+
+
+            .contact-index {
+                margin-bottom: 50px;
+            }
+
+
+            .contact h2 {
+                font-size:
+                    clamp(
+                        52px,
+                        15vw,
+                        76px
+                    );
+            }
+
+
+            .contact-button {
+                margin-top: 45px;
+            }
+
+
+            .footer {
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 18px;
+
+                padding-bottom: 12px;
+            }
+
+
+            .footer-left,
+            .footer-right {
+                flex-wrap: wrap;
+
+                gap: 10px 18px;
+            }
+
+        }
+
+
+        /* =========================================================
+           SMALL MOBILE
+           ========================================================= */
+
+        @media (max-width: 420px) {
+
+            .site {
+                width:
+                    calc(100% - 24px);
+            }
+
+
+            .identity-mark {
+                width: 27px;
+                height: 27px;
+            }
+
+
+            .identity-text strong {
+                font-size: 13px;
+            }
+
+
+            .location {
+                font-size: 8px;
+            }
+
+
+            .hero-copy {
+                padding-top: 55px;
+            }
+
+
+            .hero h1 {
+                font-size: 49px;
+            }
+
+
+            .visual {
+                min-height: 340px;
+            }
+
+
+            .visual-caption {
+                font-size: 7px;
+
+                gap: 5px;
+            }
+
+
+            .contact h2 {
+                font-size: 48px;
+            }
+
+
+            .button-arrow {
+                right: 18px;
+            }
+
+        }
+
+    </style>
 </head>
+
 
 <body>
 
@@ -35,18 +1332,25 @@
 
     <div class="grid" aria-hidden="true"></div>
 
+
     <main class="site">
 
-        <!-- ─────────────────────────────────────────────
-             HEADER
-        ───────────────────────────────────────────── -->
+
+        <!-- HEADER -->
 
         <header class="header">
 
-            <a class="identity" href="/" aria-label="JLSC Software home">
+            <a
+                class="identity"
+                href="/"
+                aria-label="JLSC Software home"
+            >
 
                 <span class="identity-mark">
-                    <img src="./JLSC logo.png" alt="" />
+                    <img
+                        src="./JLSC logo.png"
+                        alt=""
+                    />
                 </span>
 
                 <span class="identity-text">
@@ -56,9 +1360,12 @@
 
             </a>
 
+
             <div class="header-meta">
 
-                <span class="header-index">001 / 001</span>
+                <span class="header-index">
+                    001 / 001
+                </span>
 
                 <span class="location">
                     <i></i>
@@ -70,24 +1377,30 @@
         </header>
 
 
-        <!-- ─────────────────────────────────────────────
-             HERO
-        ───────────────────────────────────────────── -->
+        <!-- HERO -->
 
         <section class="hero">
+
 
             <div class="hero-copy">
 
                 <div class="eyebrow">
+
                     <span class="eyebrow-line"></span>
-                    <span>Custom enterprise software</span>
+
+                    <span>
+                        Custom enterprise software
+                    </span>
+
                 </div>
+
 
                 <h1>
                     Software<br />
                     for things<br />
                     <em>that have to work.</em>
                 </h1>
+
 
                 <div class="hero-bottom">
 
@@ -97,14 +1410,20 @@
                         actually operates.
                     </p>
 
+
                     <div class="availability">
 
                         <span class="status-dot"></span>
 
                         <span>
-                            <small>STATUS</small>
+
+                            <small>
+                                STATUS
+                            </small>
+
                             Currently unavailable<br />
                             for new projects
+
                         </span>
 
                     </div>
@@ -114,7 +1433,7 @@
             </div>
 
 
-            <!-- Visual panel -->
+            <!-- VISUAL -->
 
             <div class="visual">
 
@@ -122,25 +1441,46 @@
 
                 <div class="visual-overlay"></div>
 
+
                 <div class="visual-label label-top">
-                    <span>JLSC / 26</span>
-                    <span>PRODUCTION</span>
+
+                    <span>
+                        JLSC / 26
+                    </span>
+
+                    <span>
+                        PRODUCTION
+                    </span>
+
                 </div>
+
 
                 <div class="visual-label label-bottom">
-                    <span>01</span>
-                    <span>INTERNAL SYSTEMS</span>
+
+                    <span>
+                        01
+                    </span>
+
+                    <span>
+                        INTERNAL SYSTEMS
+                    </span>
+
                 </div>
 
+
                 <div class="visual-cross cross-one"></div>
+
                 <div class="visual-cross cross-two"></div>
 
+
                 <div class="visual-caption">
+
                     <span>BUILD</span>
                     <span>→</span>
                     <span>DEPLOY</span>
                     <span>→</span>
                     <span>OPERATE</span>
+
                 </div>
 
             </div>
@@ -148,15 +1488,15 @@
         </section>
 
 
-        <!-- ─────────────────────────────────────────────
-             SERVICES
-        ───────────────────────────────────────────── -->
+        <!-- SERVICES -->
 
         <section class="services">
 
             <div class="section-heading">
 
-                <span class="section-number">01</span>
+                <span class="section-number">
+                    01
+                </span>
 
                 <span class="section-title">
                     What gets built
@@ -169,11 +1509,16 @@
 
             <div class="service-grid">
 
+
                 <article class="service">
 
-                    <span class="service-number">01</span>
+                    <span class="service-number">
+                        01
+                    </span>
 
-                    <h2>Custom systems</h2>
+                    <h2>
+                        Custom systems
+                    </h2>
 
                     <p>
                         Software designed around your existing processes,
@@ -181,16 +1526,22 @@
                         workflow into somebody else's product.
                     </p>
 
-                    <span class="service-arrow">↗</span>
+                    <span class="service-arrow">
+                        ↗
+                    </span>
 
                 </article>
 
 
                 <article class="service">
 
-                    <span class="service-number">02</span>
+                    <span class="service-number">
+                        02
+                    </span>
 
-                    <h2>Automation & tooling</h2>
+                    <h2>
+                        Automation & tooling
+                    </h2>
 
                     <p>
                         Repetitive operations turned into reliable,
@@ -198,16 +1549,22 @@
                         unnecessary manual work.
                     </p>
 
-                    <span class="service-arrow">↗</span>
+                    <span class="service-arrow">
+                        ↗
+                    </span>
 
                 </article>
 
 
                 <article class="service">
 
-                    <span class="service-number">03</span>
+                    <span class="service-number">
+                        03
+                    </span>
 
-                    <h2>Backend integration</h2>
+                    <h2>
+                        Backend integration
+                    </h2>
 
                     <p>
                         APIs, databases, files, production software and
@@ -215,16 +1572,22 @@
                         workflow.
                     </p>
 
-                    <span class="service-arrow">↗</span>
+                    <span class="service-arrow">
+                        ↗
+                    </span>
 
                 </article>
 
 
                 <article class="service">
 
-                    <span class="service-number">04</span>
+                    <span class="service-number">
+                        04
+                    </span>
 
-                    <h2>AI adoptability</h2>
+                    <h2>
+                        AI adoptability
+                    </h2>
 
                     <p>
                         Systems designed so emerging AI capabilities can be
@@ -232,7 +1595,9 @@
                         without rebuilding everything from scratch.
                     </p>
 
-                    <span class="service-arrow">↗</span>
+                    <span class="service-arrow">
+                        ↗
+                    </span>
 
                 </article>
 
@@ -241,16 +1606,22 @@
         </section>
 
 
-        <!-- ─────────────────────────────────────────────
-             CTA
-        ───────────────────────────────────────────── -->
+        <!-- CONTACT -->
 
         <section class="contact">
 
             <div class="contact-index">
-                <span>02</span>
-                <span>CONTACT</span>
+
+                <span>
+                    02
+                </span>
+
+                <span>
+                    CONTACT
+                </span>
+
             </div>
+
 
             <div class="contact-main">
 
@@ -258,10 +1629,12 @@
                     Have a problem worth automating?
                 </p>
 
+
                 <h2>
                     Let's make the<br />
                     machine better.
                 </h2>
+
 
                 <a
                     class="contact-button"
@@ -287,9 +1660,7 @@
         </section>
 
 
-        <!-- ─────────────────────────────────────────────
-             FOOTER
-        ───────────────────────────────────────────── -->
+        <!-- FOOTER -->
 
         <footer class="footer">
 
@@ -304,6 +1675,7 @@
                 </span>
 
             </div>
+
 
             <div class="footer-right">
 
@@ -327,44 +1699,83 @@
 
 
     <script>
+
         document.getElementById("year").textContent =
             new Date().getFullYear();
 
 
         /*
-         * Very subtle pointer interaction.
-         * The image shifts by only a few pixels,
-         * giving the page a little life without
-         * turning it into an animation showcase.
+         * Subtle image parallax.
+         * Disabled automatically on touch devices.
          */
 
-        const visual = document.querySelector(".visual");
+        const visual =
+            document.querySelector(".visual");
 
-        if (visual && window.matchMedia("(pointer: fine)").matches) {
 
-            visual.addEventListener("mousemove", (event) => {
+        if (
+            visual &&
+            window.matchMedia("(pointer: fine)").matches
+        ) {
 
-                const rect = visual.getBoundingClientRect();
+            visual.addEventListener(
+                "mousemove",
+                (event) => {
 
-                const x =
-                    ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+                    const rect =
+                        visual.getBoundingClientRect();
 
-                const y =
-                    ((event.clientY - rect.top) / rect.height - 0.5) * 2;
 
-                visual.style.setProperty("--mx", `${x * 8}px`);
-                visual.style.setProperty("--my", `${y * 8}px`);
+                    const x =
+                        (
+                            (event.clientX - rect.left)
+                            / rect.width
+                            - 0.5
+                        ) * 2;
 
-            });
 
-            visual.addEventListener("mouseleave", () => {
+                    const y =
+                        (
+                            (event.clientY - rect.top)
+                            / rect.height
+                            - 0.5
+                        ) * 2;
 
-                visual.style.setProperty("--mx", "0px");
-                visual.style.setProperty("--my", "0px");
 
-            });
+                    visual.style.setProperty(
+                        "--mx",
+                        `${x * 8}px`
+                    );
+
+
+                    visual.style.setProperty(
+                        "--my",
+                        `${y * 8}px`
+                    );
+
+                }
+            );
+
+
+            visual.addEventListener(
+                "mouseleave",
+                () => {
+
+                    visual.style.setProperty(
+                        "--mx",
+                        "0px"
+                    );
+
+                    visual.style.setProperty(
+                        "--my",
+                        "0px"
+                    );
+
+                }
+            );
 
         }
+
     </script>
 
 </body>
